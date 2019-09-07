@@ -11,8 +11,6 @@ import javax.persistence.Id;
 public class Funcionalidade implements Serializable{
 
 	
-	
-	
 	/**
 	 * 
 	 */
@@ -22,11 +20,11 @@ public class Funcionalidade implements Serializable{
 	private Long id;
 	private String nome;
 	private String chave;
-	private String ativo;
+	private Boolean ativo;
 	
 	
 	
-	public Funcionalidade(Long id, String nome, String chave, String ativo) {
+	public Funcionalidade(Long id, String nome, String chave, Boolean ativo) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -59,10 +57,10 @@ public class Funcionalidade implements Serializable{
 	public void setChave(String chave) {
 		this.chave = chave;
 	}
-	public String getAtivo() {
+	public Boolean getAtivo() {
 		return ativo;
 	}
-	public void setAtivo(String ativo) {
+	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
 	

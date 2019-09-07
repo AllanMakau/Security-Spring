@@ -10,56 +10,57 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.security.control.entity.Cargo;
-import br.com.security.control.service.CargoService;
-
+import br.com.security.control.entity.Perfil;
+import br.com.security.control.service.PerfilService;
 
 @RestController
-@RequestMapping(value = "/cargo")
-public class CargoController {
+@RequestMapping(value = "/perfil")
+public class PerfilController {
 
 	
 	@Autowired
-	private CargoService cargoService;
+	private PerfilService perfilService;
+	
+	
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<?> listaCargos(){
-		List<Cargo> cargos = cargoService.obterCargos();
-		return ResponseEntity.ok(cargos);
+	public ResponseEntity<?> listaPerfil(){
+		List<Perfil> perfis = perfilService.obterPerfis();
+		return ResponseEntity.ok(perfis);
 	}
 	
 	
 	@RequestMapping(method = RequestMethod.POST )
-	public ResponseEntity<?> cadastrarCargo( @RequestBody Cargo c){
-		Cargo cargo = cargoService.cadastrarCargo(c);
-		return ResponseEntity.ok(cargo);
+	public ResponseEntity<?> cadastrarPerfil( @RequestBody Perfil c){
+		Perfil perfil = perfilService.cadastrarPerfil(c);
+		return ResponseEntity.ok(perfil);
 	}
 	
 	
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET)
 	public ResponseEntity<?> obterPorId(@PathVariable Long id){
-		Cargo cargo = cargoService.obterCargoPorId(id);
-		return ResponseEntity.ok(cargo);
+		Perfil perfil = perfilService.obterCargoPorId(id);
+		return ResponseEntity.ok(perfil);
 	}
 	
 	
 	@RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<?> excluirPorId(@PathVariable Long id){
-		cargoService.excluirCargoPorId(id); 
+		perfilService.excluirCargoPorId(id); 
 		return ResponseEntity.noContent().build();
 	}
 	
 	
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<?> atualizar( @RequestBody Cargo c){
-		Cargo cargo = cargoService.atualizarCargo(c); 
-		return ResponseEntity.ok(cargo);
+	public ResponseEntity<?> atualizar( @RequestBody Perfil p){
+		Perfil perfil = perfilService.atualizarPerfil(p); 
+		return ResponseEntity.ok(perfil);
 	}
 	
 	
 	@RequestMapping(value = "/{id}/ativo/{ativo}", method = RequestMethod.PUT)
-	public ResponseEntity<?> ativarCargo(@PathVariable Long id, @PathVariable Boolean ativo ){
-		Cargo cargo = cargoService.ativarCargo(id, ativo); 
-		return ResponseEntity.ok(cargo);
+	public ResponseEntity<?> ativarPerfil(@PathVariable Long id, @PathVariable Boolean ativo ){
+		Perfil perfil = perfilService.ativarPerfil(id, ativo); 
+		return ResponseEntity.ok(perfil);
 	}
 }
