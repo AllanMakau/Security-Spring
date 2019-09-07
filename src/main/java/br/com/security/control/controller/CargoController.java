@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.security.control.entity.Cargo;
-import br.com.security.control.entity.Usuario;
 import br.com.security.control.service.CargoService;
 
 
@@ -31,8 +30,8 @@ public class CargoController {
 	
 	
 	@RequestMapping(method = RequestMethod.POST )
-	public ResponseEntity<?> cadastrarCargo( @RequestBody Cargo user){
-		Cargo cargo = cargoService.cadastrarCargo(user);
+	public ResponseEntity<?> cadastrarCargo( @RequestBody Cargo c){
+		Cargo cargo = cargoService.cadastrarCargo(c);
 		return ResponseEntity.ok(cargo);
 	}
 	
