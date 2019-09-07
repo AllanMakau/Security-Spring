@@ -7,64 +7,64 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
 @Entity
-public class Cargo implements Serializable {
+public class Funcionalidade implements Serializable{
 
-
-
+	
+	
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private Boolean ativo;
+	private String chave;
+	private String ativo;
 	
 	
-	public Cargo() {
+	
+	public Funcionalidade(Long id, String nome, String chave, String ativo) {
 		super();
-	}
-
-
-	public Cargo(String nome, Boolean ativo) {
-		super();
+		this.id = id;
 		this.nome = nome;
+		this.chave = chave;
 		this.ativo = ativo;
 	}
-
-
+	
+	
+	public Funcionalidade() {
+		super();
+	}
+	
+	
+	
 	public Long getId() {
 		return id;
 	}
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
 	public String getNome() {
 		return nome;
 	}
-
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-
-	public Boolean getAtivo() {
+	public String getChave() {
+		return chave;
+	}
+	public void setChave(String chave) {
+		this.chave = chave;
+	}
+	public String getAtivo() {
 		return ativo;
 	}
-
-
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
-	
-	
 	
 	
 }
