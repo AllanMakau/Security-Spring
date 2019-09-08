@@ -1,11 +1,20 @@
 package br.com.security.control.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
@@ -22,6 +31,20 @@ public class Perfil implements Serializable{
 	private String nome;
 	private String descricao;
 	private Boolean ativo;
+	
+	
+	 @ManyToMany(fetch = FetchType.EAGER)
+     @JoinTable(name = "Perfil_Funcionalidade",
+     joinColumns =
+     @JoinColumn(name = "id_perfil"),
+     inverseJoinColumns =
+     @JoinColumn(name = "id_funcionalidade"))
+    private Set<Funcionalidade> funcionalidades = new HashSet<Funcionalidade>();
+	 
+	 
+	@ManyToMany(mappedBy = "perfil",fetch = FetchType.EAGER)
+	@JsonBackReference
+    private Set<Usuario> usuario = new HashSet<Usuario>();
 	
 	public Perfil(Long id, String nome, String descricao, Boolean ativo) {
 		super();
@@ -66,7 +89,25 @@ public class Perfil implements Serializable{
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-	
+
+
+	public Set<Usuario> getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Set<Usuario> usuario) {
+		this.usuario = usuario;
+	}
+
+	public Set<Funcionalidade> getFuncionalidades() {
+		return funcionalidades;
+	}
+
+	public void setFuncionalidades(Set<Funcionalidade> funcionalidades) {
+		this.funcionalidades = funcionalidades;
+	}
+
+
 	
 
 }

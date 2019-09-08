@@ -40,6 +40,7 @@ public class Application  implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 
 		
+
 		Funcionalidade f1 = new Funcionalidade(null, "cadastra", "cad", true);
 		Funcionalidade f2 = new Funcionalidade(null, "consulta", "con", true);
 		Funcionalidade f3 = new Funcionalidade(null, "atualiza", "atu", true);
@@ -48,16 +49,39 @@ public class Application  implements CommandLineRunner{
 		funcionalidadeReposytory.saveAll(Arrays.asList(f1,f2,f3,f4));
 		
 		Perfil p1 = new Perfil(null, "Assistente", "Assistente", true);
+		p1.getFuncionalidades().add(f1);
+        p1.getFuncionalidades().add(f2);
+        p1.getFuncionalidades().add(f3);
+        p1.getFuncionalidades().add(f4);
+ 
 		Perfil p2 = new Perfil(null, "Atendente", "Atendente", true);
+		p2.getFuncionalidades().add(f2);
+        p2.getFuncionalidades().add(f3);
+		
 		Perfil p3 = new Perfil(null, "Supervisor", "Supervisor", true);
+		p3.getFuncionalidades().add(f1);
+        p3.getFuncionalidades().add(f2);
+        p3.getFuncionalidades().add(f3);
+		
 		Perfil p4 = new Perfil(null, "Coordenador", "Coordenador", true);
+		p4.getFuncionalidades().add(f2);
+		p4.getFuncionalidades().add(f4);
 		
 		perfilRepository.saveAll(Arrays.asList(p1,p2,p3,p4));
 		
 		
 		Usuario user1 = new Usuario("Alan Lima", "alima", encode.encode("12345"), "alan@gmail.com",true);
+		user1.getPerfil().add(p2);
+		user1.getPerfil().add(p3);
+		
 		Usuario user2 = new Usuario("Fernanda Santos", "fsantos", encode.encode("123321"), "fernanda@gmail.com",true);
+		user2.getPerfil().add(p1);
+		user2.getPerfil().add(p2);
+		user2.getPerfil().add(p3);
+		
 		Usuario user3 = new Usuario("Maria julia", "maju", encode.encode("123654"), "maju@gmail.com",true);
+		user3.getPerfil().add(p2);
+		user3.getPerfil().add(p3);
 		
 		usuarioRepository.saveAll(Arrays.asList(user1,user2,user3));
 		

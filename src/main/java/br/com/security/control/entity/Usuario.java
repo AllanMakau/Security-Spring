@@ -1,12 +1,21 @@
 package br.com.security.control.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 
@@ -26,6 +35,17 @@ public class Usuario implements Serializable {
     private String email;
 	private Date data_nascimento;
 	private Boolean ativo;
+	
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "Usuario_Perfil",
+    joinColumns =
+    @JoinColumn(name = "id_usuario"),
+    inverseJoinColumns =
+    @JoinColumn(name = "id_perfil"))
+	@JsonManagedReference
+    private Set<Perfil> perfil = new HashSet<Perfil>();
+
 	
 	public Usuario(String nome, String login, String senha, String email, Boolean ativo) {
 		super();
@@ -94,6 +114,14 @@ public class Usuario implements Serializable {
 
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public Set<Perfil> getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Set<Perfil> perfil) {
+		this.perfil = perfil;
 	}
 
 
