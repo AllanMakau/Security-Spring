@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ public class UsuarioController {
 	
 	
 	@RequestMapping(method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('cad')")
 	public ResponseEntity<?> listaUsuarios(){
 		List<Usuario> usuarios = usuarioService.obterUsuarios();
 		return ResponseEntity.ok(usuarios);
@@ -56,6 +58,7 @@ public class UsuarioController {
 	
 	
 	@RequestMapping(value = "/{id}/ativo/{ativo}", method = RequestMethod.PUT)
+	@PreAuthorize("hasAuthority('cad')")
 	public ResponseEntity<?> ativarUsuario(@PathVariable Long id, @PathVariable Boolean ativo ){
 		Usuario usuario = usuarioService.ativarUsuario(id, ativo); 
 		return ResponseEntity.ok(usuario);
