@@ -20,6 +20,10 @@ public class JwtUtil {
 	private Long expiration;
 	
 	
+	@Value("${jwt.expirationemailrecovery}")
+	private Long expirationEmailRecovery;
+	
+	
 	
 	public String generateToken(UserSS usuario) {
 		return Jwts.builder()
@@ -27,6 +31,16 @@ public class JwtUtil {
 				.setExpiration(new Date(System.currentTimeMillis() + expiration))
 				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
 				.compact();
+	}
+	
+	
+	public String generateTokenEmailRecovery(String email) {
+		return Jwts.builder()
+				.setSubject(email)
+				.setExpiration(new Date(System.currentTimeMillis() + expirationEmailRecovery))
+				.signWith(SignatureAlgorithm.HS512, email.getBytes())
+				.compact();
+		
 	}
 	
 	
@@ -61,5 +75,14 @@ public class JwtUtil {
 			return claims.getSubject();
 		}
 		return null;
+	}
+	
+	public String obterSubject(String token) {
+		String email= "";
+		Claims claims = getClaims(token);
+		if (claims != null) {
+			 email = claims.getSubject();
+		}
+		return email;
 	}
 }

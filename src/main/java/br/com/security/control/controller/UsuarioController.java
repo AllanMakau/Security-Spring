@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.security.control.DTO.EmailDTO;
+import br.com.security.control.emailUtil.EmailService;
+import br.com.security.control.entity.Conta;
 import br.com.security.control.entity.Usuario;
+import br.com.security.control.service.ContaService;
 import br.com.security.control.service.UsuarioService;
 
 @RestController
@@ -21,6 +25,7 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
 	
 	
 	@RequestMapping(method = RequestMethod.GET)
