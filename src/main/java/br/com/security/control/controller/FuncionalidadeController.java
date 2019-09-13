@@ -1,15 +1,24 @@
 package br.com.security.control.controller;
 
+import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import br.com.security.control.entity.Funcionalidade;
+import br.com.security.control.event.RecursoCriadoEvent;
 import br.com.security.control.service.FuncionalidadeService;
 
 @RestController
@@ -21,6 +30,8 @@ public class FuncionalidadeController {
 	@Autowired
 	FuncionalidadeService funcionalidadeService;
 	
+	@Autowired
+	private ApplicationEventPublisher publisher;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> listaFuncionalidade(){
@@ -30,9 +41,10 @@ public class FuncionalidadeController {
 	
 	
 	@RequestMapping(method = RequestMethod.POST )
-	public ResponseEntity<?> cadastrarFuncionalidade( @RequestBody Funcionalidade f){
+	public ResponseEntity<?> cadastrarFuncionalidade(@Validated @RequestBody Funcionalidade f, HttpServletResponse response){
 		Funcionalidade funcionalidade = funcionalidadeService.cadastrarFuncionalidade(f);
-		return ResponseEntity.ok(funcionalidade);
+		publisher.publishEvent(new RecursoCriadoEvent(this, response, funcionalidade.getId()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(funcionalidade);
 	}
 	
 	

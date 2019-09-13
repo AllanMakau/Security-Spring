@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Funcionalidade implements Serializable{
@@ -18,6 +20,7 @@ public class Funcionalidade implements Serializable{
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotNull @Size(min = 3,max = 10)
 	private String nome;
 	private String chave;
 	private Boolean ativo;

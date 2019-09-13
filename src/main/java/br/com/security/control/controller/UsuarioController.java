@@ -2,6 +2,8 @@ package br.com.security.control.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,14 +31,13 @@ public class UsuarioController {
 	
 	
 	@RequestMapping(method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('cad')")
 	public ResponseEntity<?> listaUsuarios(){
 		List<Usuario> usuarios = usuarioService.obterUsuarios();
 		return ResponseEntity.ok(usuarios);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST )
-	public ResponseEntity<?> cadastrarUsuario( @RequestBody Usuario user){
+	public ResponseEntity<?> cadastrarUsuario(@Valid @RequestBody Usuario user){
 		Usuario usuario = usuarioService.cadastrarUsuario(user);
 		return ResponseEntity.ok(usuario);
 	}

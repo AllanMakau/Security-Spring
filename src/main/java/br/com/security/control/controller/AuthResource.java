@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.security.control.DTO.EmailUserDTO;
+import br.com.security.control.DTO.UserNewPasswordDTO;
 import br.com.security.control.security.JwtUtil;
 import br.com.security.control.security.UserSS;
 import br.com.security.control.service.AuthService;

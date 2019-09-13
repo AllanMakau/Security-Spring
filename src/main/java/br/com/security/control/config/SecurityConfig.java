@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -37,9 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	private static final String[] PUBLIC_MATCHERS_GET = {
 		    
-    		"/usuario/**",
-    		"/perfil/**",
-            "/h2-console/**"
+            "/h2-console/**",
+        	"/auth/newPassword/**"
     };
     
 	
@@ -95,5 +96,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    return mailSender;
 	}
     
+
 
 }

@@ -1,4 +1,4 @@
-package br.com.security.control.controller;
+package br.com.security.control.DTO;
 
 public class UserNewPasswordDTO {
 

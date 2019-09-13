@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.security.control.DTO.EmailDTO;
-import br.com.security.control.controller.UserNewPasswordDTO;
+import br.com.security.control.DTO.UserNewPasswordDTO;
 import br.com.security.control.emailUtil.EmailService;
 import br.com.security.control.entity.Conta;
 import br.com.security.control.entity.Usuario;
