@@ -38,10 +38,7 @@ public class ControlExceptionHandler extends ResponseEntityExceptionHandler {
 		List<Error> erros = Arrays.asList(new Error(msgErrorUser, msgErrorDev));
 		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request) ;
 	}
-	
-	
-	
-	
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -59,7 +56,6 @@ public class ControlExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	private List<Error> criaListaErros(BindingResult bindingResult){
 		List<Error> erros = new ArrayList<>();
-		
 		for(FieldError fieldError : bindingResult.getFieldErrors()) {
 			String msgErrorUser = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()) ;
 			String msgErrorDev = fieldError.toString() ;

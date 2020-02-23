@@ -1,7 +1,9 @@
 package br.com.security.control.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,15 +17,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Builder;
+
+
 
 
 @Entity
+
 public class Perfil implements Serializable{
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,30 +37,34 @@ public class Perfil implements Serializable{
 	private Boolean ativo;
 	
 	
-	 @ManyToMany(fetch = FetchType.EAGER)
-     @JoinTable(name = "Perfil_Funcionalidade",
-     joinColumns =
-     @JoinColumn(name = "id_perfil"),
-     inverseJoinColumns =
-     @JoinColumn(name = "id_funcionalidade"))
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "Perfil_Funcionalidade",
+    joinColumns =
+    @JoinColumn(name = "id_perfil"),
+    inverseJoinColumns =
+    @JoinColumn(name = "id_funcionalidade"))
     private Set<Funcionalidade> funcionalidades = new HashSet<Funcionalidade>();
 	 
-	 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "perfil",fetch = FetchType.EAGER)
 	@JsonBackReference
     private Set<Usuario> usuario = new HashSet<Usuario>();
-	
-	public Perfil(Long id, String nome, String descricao, Boolean ativo) {
+
+	public Perfil() {
 		super();
-		this.id = id;
+	}
+	
+	
+
+	public Perfil(String nome, String descricao, Boolean ativo) {
+		super();
 		this.nome = nome;
 		this.descricao = descricao;
 		this.ativo = ativo;
 	}
 
-	public Perfil() {
-		super();
-	}
+
 
 	public Long getId() {
 		return id;
@@ -90,6 +98,13 @@ public class Perfil implements Serializable{
 		this.ativo = ativo;
 	}
 
+	public Set<Funcionalidade> getFuncionalidades() {
+		return funcionalidades;
+	}
+
+	public void setFuncionalidades(Set<Funcionalidade> funcionalidades) {
+		this.funcionalidades = funcionalidades;
+	}
 
 	public Set<Usuario> getUsuario() {
 		return usuario;
@@ -99,15 +114,13 @@ public class Perfil implements Serializable{
 		this.usuario = usuario;
 	}
 
-	public Set<Funcionalidade> getFuncionalidades() {
-		return funcionalidades;
-	}
-
-	public void setFuncionalidades(Set<Funcionalidade> funcionalidades) {
-		this.funcionalidades = funcionalidades;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 
 	
-
+	
+	
+	
 }

@@ -43,34 +43,34 @@ public class Application  implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-
+/*
 		Conta conta = new Conta(null,"SUPORTE", "suportehotelpiramide@gmail.com", "hotelpiramide1", 587, "smtp.gmail.com");
 		
 		contaRepository.save(conta);
 
-		Funcionalidade f1 = new Funcionalidade(null, "cadastra", "cad", true);
-		Funcionalidade f2 = new Funcionalidade(null, "consulta", "con", true);
-		Funcionalidade f3 = new Funcionalidade(null, "atualiza", "atu", true);
-		Funcionalidade f4 = new Funcionalidade(null, "deleta", "del", true);
+		Funcionalidade f1 = new Funcionalidade("cadastra", "cad", true);
+		Funcionalidade f2 = new Funcionalidade("consulta", "con", true);
+		Funcionalidade f3 = new Funcionalidade( "atualiza", "atu", true);
+		Funcionalidade f4 = new Funcionalidade("deleta", "del", true);
 		
 		funcionalidadeReposytory.saveAll(Arrays.asList(f1,f2,f3,f4));
 		
-		Perfil p1 = new Perfil(null, "Assistente", "Assistente", true);
+		Perfil p1 = new Perfil("Assistente", "Assistente", true);
 		p1.getFuncionalidades().add(f1);
         p1.getFuncionalidades().add(f2);
         p1.getFuncionalidades().add(f3);
         p1.getFuncionalidades().add(f4);
  
-		Perfil p2 = new Perfil(null, "Atendente", "Atendente", true);
+		Perfil p2 = new Perfil( "Atendente", "Atendente", true);
 		p2.getFuncionalidades().add(f2);
         p2.getFuncionalidades().add(f3);
 		
-		Perfil p3 = new Perfil(null, "Supervisor", "Supervisor", true);
+		Perfil p3 = new Perfil( "Supervisor", "Supervisor", true);
 		p3.getFuncionalidades().add(f1);
         p3.getFuncionalidades().add(f2);
         p3.getFuncionalidades().add(f3);
 		
-		Perfil p4 = new Perfil(null, "Coordenador", "Coordenador", true);
+		Perfil p4 = new Perfil("Coordenador", "Coordenador", true);
 		p4.getFuncionalidades().add(f2);
 		p4.getFuncionalidades().add(f4);
 		
@@ -91,7 +91,7 @@ public class Application  implements CommandLineRunner{
 		user3.getPerfil().add(p3);
 		
 		usuarioRepository.saveAll(Arrays.asList(user1,user2,user3));
-		
+		*/
 	}
 
 }

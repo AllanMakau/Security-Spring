@@ -40,7 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private static final String[] PUBLIC_MATCHERS_GET = {
 		    
             "/h2-console/**",
-        	"/auth/newPassword/**"
+        	"/auth/newPassword/**",
+        	"/usuario/**","/perfil/**","/funcionalidade/**","/cargo/**"
     };
     
 	
@@ -81,8 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Bean
 	public JavaMailSender getJavaMailSender() {
-	    
-    	
+
     	JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 	    mailSender.setHost("smtp.gmail.com");
 	    mailSender.setPort(587);
@@ -92,7 +92,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    props.put("mail.smtp.auth", "true");
 	    props.put("mail.smtp.starttls.enable", "true");
 	    props.put("mail.debug", "true");
-	     
 	    return mailSender;
 	}
     

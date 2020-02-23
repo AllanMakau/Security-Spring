@@ -3,6 +3,7 @@ package br.com.security.control.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.security.control.entity.Usuario;
@@ -14,8 +15,7 @@ public class UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
-	
+
 	
 	public List<Usuario> obterUsuarios(){
 		List<Usuario> usuarios = usuarioRepository.findAll();
@@ -31,6 +31,10 @@ public class UsuarioService {
 		 usuarioRepository.deleteById(id);
 	}
 	
+	public void excluir(Usuario user ) {
+		 usuarioRepository.delete(user);
+	}
+	
 	
 	public Usuario atualizarUsuario(Usuario user){
 		Usuario usuario = usuarioRepository.save(user);
@@ -38,6 +42,8 @@ public class UsuarioService {
 	}
 	
 	public Usuario cadastrarUsuario(Usuario user){
+		BCryptPasswordEncoder en = new BCryptPasswordEncoder();
+		user.setSenha(en.encode(user.getSenha()));
 		Usuario usuario = usuarioRepository.save(user);
 		return usuario;
 	}

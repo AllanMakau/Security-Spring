@@ -26,14 +26,14 @@ public class EmailService  {
 		
 	public void sendSimpleMessage(Conta conta, EmailDTO email) {
 		       
-				emailSenderImpl.setUsername(conta.getLogin());
-				emailSenderImpl.setPassword(conta.getSenha());
-		        SimpleMailMessage message = new SimpleMailMessage(); 
-		        message.setTo(email.getDestinatario()); 
-		        message.setSubject(email.getAssunto()); 
-		        message.setText(email.getTexto());
-		        emailSender.send(message);
-		     
-		    }
+		emailSenderImpl.setUsername(conta.getLogin());
+		emailSenderImpl.setPassword(conta.getSenha());
+        SimpleMailMessage message = new SimpleMailMessage(); 
+        message.setTo(email.getDestinatario()); 
+        message.setSubject(email.getAssunto()); 
+        message.setText(email.getTexto());
+        emailSender.send(message);
+     
+    }
     
 }

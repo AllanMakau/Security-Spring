@@ -7,7 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class Conta implements Serializable {
 
 	
@@ -18,70 +21,18 @@ public class Conta implements Serializable {
 	private String senha;
 	private Integer porta;
 	private String smtp;
-	
-	public Conta(Long id,String tipoConta, String login, String senha, Integer porta, String smtp) {
+	public Conta(Long id, String tipoConta, String login, String senha, Integer porta, String smtp) {
 		super();
 		this.id = id;
+		this.tipoConta = tipoConta;
 		this.login = login;
 		this.senha = senha;
 		this.porta = porta;
 		this.smtp = smtp;
-		this.tipoConta = tipoConta;
-	}
-
-	public Conta() {
-		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public Integer getPorta() {
-		return porta;
-	}
-
-	public void setPorta(Integer porta) {
-		this.porta = porta;
-	}
-
-	public String getSmtp() {
-		return smtp;
-	}
-
-	public void setSmtp(String smtp) {
-		this.smtp = smtp;
-	}
-
-	public String getTipoConta() {
-		return tipoConta;
-	}
-
-	public void setTipoConta(String tipoConta) {
-		this.tipoConta = tipoConta;
 	}
 	
 	
 	
 	
+
 }
