@@ -27,7 +27,6 @@ import lombok.Builder;
 
 
 @Entity
-
 public class Usuario implements Serializable {
 	
 	
@@ -56,15 +55,10 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "id_perfil"))
     private Set<Perfil> perfil = new HashSet<Perfil>();
 
-	
-	
-	
 	public Usuario() {
 		super();
 	}
-
-
-
+	
 	public Usuario(String nome, String login, String senha, String email, Boolean ativo) {
 		super();
 		this.nome = nome;
@@ -73,7 +67,6 @@ public class Usuario implements Serializable {
 		this.email = email;
 		this.ativo = ativo;
 	}
-
 
 
 	public Long getId() {

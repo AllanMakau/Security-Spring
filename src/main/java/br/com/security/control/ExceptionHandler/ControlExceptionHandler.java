@@ -5,6 +5,7 @@ package br.com.security.control.ExceptionHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -53,6 +54,7 @@ public class ControlExceptionHandler extends ResponseEntityExceptionHandler {
 		List<Error> erros = Arrays.asList(new Error(msgErrorUser, msgErrorDev));
 		return handleExceptionInternal(ex, erros,new HttpHeaders(), HttpStatus.NOT_FOUND, request) ; 
 	}
+	
 	
 	private List<Error> criaListaErros(BindingResult bindingResult){
 		List<Error> erros = new ArrayList<>();
