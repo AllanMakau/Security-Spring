@@ -67,6 +67,12 @@ public class CargoController {
 		return ResponseEntity.ok(cargo);
 	}
 	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> atualizarPorId(@PathVariable Long id, @RequestBody Cargo c){
+		Cargo cargo = cargoService.atualizarCargo(c); 
+		return ResponseEntity.ok(cargo);
+	}
+	
 	
 	@RequestMapping(value = "/{id}/ativo/{ativo}", method = RequestMethod.PUT)
 	public ResponseEntity<?> ativarCargo(@PathVariable Long id, @PathVariable Boolean ativo ){

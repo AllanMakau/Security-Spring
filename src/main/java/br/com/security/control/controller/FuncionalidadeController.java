@@ -1,6 +1,6 @@
 package br.com.security.control.controller;
 
-import java.net.URI;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import br.com.security.control.entity.Funcionalidade;
 import br.com.security.control.event.RecursoCriadoEvent;
 import br.com.security.control.service.FuncionalidadeService;
@@ -49,7 +47,7 @@ public class FuncionalidadeController {
 	
 	
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET)
-	public ResponseEntity<?> obterPorId(@PathVariable Long id){
+	public ResponseEntity<?> obterPorId( @PathVariable Long id){
 		Funcionalidade funcionalidade = funcionalidadeService.obterFuncionalidadePorId(id);
 		return ResponseEntity.ok(funcionalidade);
 	}
@@ -63,11 +61,16 @@ public class FuncionalidadeController {
 	
 	
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<?> atualizar( @RequestBody Funcionalidade f){
+	public ResponseEntity<?> atualizar(@Validated @RequestBody Funcionalidade f){
 		Funcionalidade funcionalidade = funcionalidadeService.atualizarFuncionalidade(f); 
 		return ResponseEntity.ok(funcionalidade);
 	}
 	
+	@RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+	public ResponseEntity<?> atualizar(@Validated @PathVariable Long id, @RequestBody Funcionalidade f){
+		Funcionalidade funcionalidade = funcionalidadeService.atualizarFuncionalidadePorId(id, f); 
+		return ResponseEntity.ok(funcionalidade);
+	}
 	
 	@RequestMapping(value = "/{id}/ativo/{ativo}", method = RequestMethod.PUT)
 	public ResponseEntity<?> ativarFuncionalidade(@PathVariable Long id, @PathVariable Boolean ativo ){

@@ -2,6 +2,7 @@ package br.com.security.control.service;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.security.control.entity.Funcionalidade;
@@ -33,6 +34,15 @@ public class FuncionalidadeService {
 	public Funcionalidade atualizarFuncionalidade(Funcionalidade f){
 		Funcionalidade funcionalidade = funcionalidadeRepository.save(f);
 		return funcionalidade;
+	}
+	
+	public Funcionalidade atualizarFuncionalidadePorId(Long id, Funcionalidade funcionalidade){
+		
+		Funcionalidade funcionalidadeAtual = funcionalidadeRepository.getOne(id);
+		
+		BeanUtils.copyProperties(funcionalidade, funcionalidadeAtual, "id");
+		Funcionalidade retorno = funcionalidadeRepository.save(funcionalidadeAtual);
+		return retorno;
 	}
 	
 	

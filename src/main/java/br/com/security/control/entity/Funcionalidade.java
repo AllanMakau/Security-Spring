@@ -7,18 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.Data;
 
 
 @Entity
 public class Funcionalidade implements Serializable{
 
-	public Funcionalidade(String nome, String chave, Boolean ativo) {
-		super();
-		this.nome = nome;
-		this.chave = chave;
-		this.ativo = ativo;
-	}
 
 	private static final long serialVersionUID = 1L;
 	
@@ -30,6 +23,12 @@ public class Funcionalidade implements Serializable{
 	
 	public Funcionalidade() {
 		super();
+	}
+	public Funcionalidade(String nome, String chave, boolean ativo) {
+		super();
+		this.nome = nome;
+		this.chave = chave;
+		this.ativo = ativo;
 	}
 
 	public Long getId() {

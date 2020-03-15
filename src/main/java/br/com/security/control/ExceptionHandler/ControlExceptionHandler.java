@@ -2,101 +2,105 @@ package br.com.security.control.ExceptionHandler;
 
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
+import br.com.security.control.DTO.ProblemaDTO;
+import br.com.security.control.DTO.TipoProblemaEnum;
+
+
 
 @ControllerAdvice
 public class ControlExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@Autowired
-	private MessageSource messageSource;
+	//@Autowired
+	//private MessageSource messageSource;
 	
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
-		String msgErrorUser = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
-		String msgErrorDev = ex.getCause().toString();
-		List<Error> erros = Arrays.asList(new Error(msgErrorUser, msgErrorDev));
-		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request) ;
+		Throwable rootCause =  org.apache.commons.lang3.exception.ExceptionUtils.getRootCause(ex);
+		
+		if(rootCause instanceof  InvalidFormatException) {
+			
+			return handleIvalidFormatException((InvalidFormatException) rootCause,headers,status,request);
+		}
+		
+		TipoProblemaEnum tipo = TipoProblemaEnum.MENSAGEM_INVALIDA;
+		String detalhe = "O corpo do objeto está inválido.";
+		ProblemaDTO problema = new ProblemaDTO(status.value(), detalhe, tipo.getUri(), ex.getMessage());
+		return handleExceptionInternal(ex, problema, headers, status, request) ;
+	}
+
+	private ResponseEntity<Object> handleIvalidFormatException(InvalidFormatException rootCause, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
+		
+		String path = rootCause.getPath().stream()
+					  .map(ref -> ref.getFieldName())
+					  .collect(Collectors.joining("."));
+		
+		TipoProblemaEnum tipo = TipoProblemaEnum.MENSAGEM_INVALIDA;
+		String detalhe = String.format("A propriedade '%s' recebeu o valor '%s' , que é de um tipo inválido. Corrija e informe um valor com o tipo '%s' .", path,rootCause.getValue(), rootCause.getTargetType().getSimpleName());
+		ProblemaDTO problema = new ProblemaDTO(status.value(), detalhe, tipo.getUri(), rootCause.getMessage());
+		return handleExceptionInternal(rootCause, problema,new HttpHeaders(), status, request) ;
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		List<Error> erros = this.criaListaErros(ex.getBindingResult());
-		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request) ;
+		HttpHeaders headers, HttpStatus status, WebRequest request) {
+		TipoProblemaEnum tipo = TipoProblemaEnum.ARGUMENTO_INVALIDO;
+		ProblemaDTO problema = new ProblemaDTO(status.value(), tipo.getTitulo(), tipo.getUri(), ex.getMessage());
+		return handleExceptionInternal(ex, problema, headers, HttpStatus.BAD_REQUEST, request) ;
 	}
 	
 	@ExceptionHandler({EmptyResultDataAccessException.class})
 	protected ResponseEntity<Object> handleEmptyResultDataAccessException( EmptyResultDataAccessException ex, WebRequest request) {
-		String msgErrorUser = messageSource.getMessage("recurso.nao-encontrado", null, LocaleContextHolder.getLocale());
-		String msgErrorDev = ex.toString();
-		List<Error> erros = Arrays.asList(new Error(msgErrorUser, msgErrorDev));
-		return handleExceptionInternal(ex, erros,new HttpHeaders(), HttpStatus.NOT_FOUND, request) ; 
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		TipoProblemaEnum tipo = TipoProblemaEnum.RECURSO_NAO_ENCONTRADO;
+		ProblemaDTO problema = new ProblemaDTO(status.value(), tipo.getTitulo(), tipo.getUri(), ex.getMessage());
+		return handleExceptionInternal(ex, problema,new HttpHeaders(), status, request) ; 
 	}
 	
-	
-	private List<Error> criaListaErros(BindingResult bindingResult){
-		List<Error> erros = new ArrayList<>();
-		for(FieldError fieldError : bindingResult.getFieldErrors()) {
-			String msgErrorUser = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()) ;
-			String msgErrorDev = fieldError.toString() ;
-			erros.add(new Error(msgErrorUser, msgErrorDev));
-		}
-		return erros;
+	@ExceptionHandler({NoSuchElementException.class})
+	protected ResponseEntity<Object> handleNoSuchElementException( NoSuchElementException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		TipoProblemaEnum tipo = TipoProblemaEnum.RECURSO_NAO_ENCONTRADO;
+		ProblemaDTO problema = new ProblemaDTO(status.value(), tipo.getTitulo(), tipo.getUri(), ex.getMessage());
+		return handleExceptionInternal(ex, problema,new HttpHeaders(), status, request) ; 
 	}
 	
-	
-	public static class Error {
-		
-		private  String msgErrorUser;
-		private  String msgErrorDev;
-		
-		public Error(String msgErrorUser,String msgErrorDev) {
-			this.msgErrorUser = msgErrorUser;
-			this.msgErrorDev = msgErrorDev;
-		}
-
-		public String getMsgErrorUser() {
-			return msgErrorUser;
-		}
-
-		public void setMsgErrorUser(String msgErrorUser) {
-			this.msgErrorUser = msgErrorUser;
-		}
-
-		public String getMsgErrorDev() {
-			return msgErrorDev;
-		}
-
-		public void setMsgErrorDev(String msgErrorDev) {
-			this.msgErrorDev = msgErrorDev;
-		}
-		
-		
-		
+	@ExceptionHandler({DataIntegrityViolationException.class})
+	protected ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		TipoProblemaEnum tipo = TipoProblemaEnum.ERRO_DATA_INTEGRITY;
+		ProblemaDTO problema = new ProblemaDTO(status.value(), tipo.getTitulo(), tipo.getUri(), ex.getMessage());
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request) ; 
 	}
 	
+	@ExceptionHandler({AccessDeniedException.class})
+	protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		TipoProblemaEnum tipo = TipoProblemaEnum.ACCESS_DANIED_EXCEPTION;
+		ProblemaDTO problema = new ProblemaDTO(status.value(), tipo.getTitulo(), tipo.getUri(), ex.getMessage());
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request) ; 
+	}
 
 }
 

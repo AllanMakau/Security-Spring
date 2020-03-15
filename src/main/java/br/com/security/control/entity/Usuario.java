@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -38,10 +39,14 @@ public class Usuario implements Serializable {
     private String email;
 	private Date data_nascimento;
 	private Boolean ativo;
+
 	@CreationTimestamp
+	@Column(nullable = false)
 	private LocalDateTime insertDate;
+
 	@UpdateTimestamp
-	private LocalDateTime updateDate;
+	@Column(nullable = false)
+	private LocalDateTime  updateDate;
 	
 	@ManyToOne
 	private Cargo cargo;

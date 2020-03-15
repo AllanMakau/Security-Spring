@@ -37,7 +37,7 @@ public class Perfil implements Serializable{
 	private Boolean ativo;
 	
 	
-	@JsonIgnore
+	
 	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Perfil_Funcionalidade",
     joinColumns =
@@ -46,9 +46,9 @@ public class Perfil implements Serializable{
     @JoinColumn(name = "id_funcionalidade"))
     private Set<Funcionalidade> funcionalidades = new HashSet<Funcionalidade>();
 	 
-	@JsonIgnore
+
 	@ManyToMany(mappedBy = "perfil",fetch = FetchType.EAGER)
-	@JsonBackReference
+	@JsonIgnore
     private Set<Usuario> usuario = new HashSet<Usuario>();
 
 	public Perfil() {
