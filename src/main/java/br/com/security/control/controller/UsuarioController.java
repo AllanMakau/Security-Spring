@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.security.control.DTO.NovaSenhaDTO;
 import br.com.security.control.entity.Usuario;
 import br.com.security.control.service.UsuarioService;
+import javassist.tools.rmi.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value = "/usuario")
@@ -26,8 +27,7 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
-	
-	
+
 	
 	@RequestMapping(method = RequestMethod.GET )
 	@PreAuthorize("hasAuthority('del')")
@@ -67,7 +67,6 @@ public class UsuarioController {
 		
 		Usuario usuarioAtual = usuarioService.obterUsuarioPorId(id);
 		usuarioService.merge(campos,usuarioAtual);
-	
 		return this.atualizar(id, usuarioAtual);
 	}
 
@@ -80,10 +79,10 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value = "/renovar-senha/{id}")
-	public Usuario resetSenha(@PathVariable Long id,@Valid @RequestBody NovaSenhaDTO senha){
+	public Usuario resetSenha(@PathVariable Long id,@Valid @RequestBody NovaSenhaDTO senha) throws ObjectNotFoundException{
 		
 		if(senha.getSenha1().equals(senha.getSenha2())) {
-			new Exception();
+			throw new  ObjectNotFoundException("As senhas não coincidem!");
 		}
 		Usuario senhaAtualizada = usuarioService.resetarSenha( id, senha);
 		return senhaAtualizada;
