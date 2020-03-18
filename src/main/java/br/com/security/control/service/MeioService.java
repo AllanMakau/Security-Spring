@@ -16,7 +16,7 @@ public class MeioService {
 	@Autowired
 	private MeioRepository meioRepository;
 	
-	public List<Meio> obterMeio(){
+	public List<Meio> obterMeios(){
 		List<Meio> meio = meioRepository.findAll();
 		return meio;
 	}

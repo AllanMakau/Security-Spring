@@ -1,7 +1,9 @@
 package br.com.security.control.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -11,67 +13,67 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.security.control.entity.Cargo;
+import br.com.security.control.entity.Meio;
 import br.com.security.control.event.RecursoCriadoEvent;
-import br.com.security.control.service.CargoService;
-
+import br.com.security.control.service.MeioService;
 
 @RestController
-@RequestMapping(value = "/cargo")
-public class CargoController {
-
+@RequestMapping(value = "/meio")
+public class MeioController {
+	
 	
 	@Autowired
-	private CargoService cargoService;
+	private MeioService meioService;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<?> listaCargos(){
-		List<Cargo> cargos = cargoService.obterCargos();
-		return ResponseEntity.ok(cargos);
+	public ResponseEntity<?> listaMeios(){
+		List<Meio> meios = meioService.obterMeios();
+		return ResponseEntity.ok(meios);
 	}
 	
 	
 	@RequestMapping(method = RequestMethod.POST )
-	public ResponseEntity<?> cadastrarCargo( @RequestBody Cargo c, HttpServletResponse response){
-		Cargo cargo = cargoService.cadastrarCargo(c);
-		publisher.publishEvent(new RecursoCriadoEvent(this, response, cargo.getId()));
-		return ResponseEntity.status(HttpStatus.CREATED).body(cargo);
+	public ResponseEntity<?> cadastrarMeio( @RequestBody Meio c, HttpServletResponse response){
+		Meio meio = meioService.cadastrarMeio(c);
+		publisher.publishEvent(new RecursoCriadoEvent(this, response, meio.getId()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(meio);
 	}
 	
 	
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET)
 	public ResponseEntity<?> obterPorId(@PathVariable Long id){
-		Cargo cargo = cargoService.obterCargoPorId(id);
-		return ResponseEntity.ok(cargo);
+		Meio meio = meioService.obterMeioPorId(id);
+		return ResponseEntity.ok(meio);
 	}
 	
 	
 	@RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<?> excluirPorId(@PathVariable Long id){
-		cargoService.excluirCargoPorId(id); 
+		meioService.excluirMeioPorId(id); 
 		return ResponseEntity.noContent().build();
 	}
 	
 	
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<?> atualizar( @RequestBody Cargo c){
-		Cargo cargo = cargoService.atualizarCargo(c); 
-		return ResponseEntity.ok(cargo);
+	public ResponseEntity<?> atualizar( @RequestBody Meio c){
+		Meio meio = meioService.atualizarMeio(c); 
+		return ResponseEntity.ok(meio);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> atualizarPorId(@PathVariable Long id, @RequestBody Cargo c){
-		Cargo cargo = cargoService.atualizarCargo(c); 
-		return ResponseEntity.ok(cargo);
+	public ResponseEntity<?> atualizarPorId(@PathVariable Long id, @RequestBody Meio c){
+		Meio meio = meioService.atualizarMeio(c); 
+		return ResponseEntity.ok(meio);
 	}
 	
 	
 	@RequestMapping(value = "/{id}/ativo/{ativo}", method = RequestMethod.PUT)
-	public ResponseEntity<?> ativarCargo(@PathVariable Long id, @PathVariable Boolean ativo ){
-		Cargo cargo = cargoService.ativarCargo(id, ativo); 
-		return ResponseEntity.ok(cargo);
+	public ResponseEntity<?> ativarMeio(@PathVariable Long id, @PathVariable Boolean ativo ){
+		Meio meio = meioService.ativarMeio(id, ativo); 
+		return ResponseEntity.ok(meio);
 	}
+
 }

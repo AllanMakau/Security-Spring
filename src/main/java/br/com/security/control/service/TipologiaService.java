@@ -15,7 +15,7 @@ public class TipologiaService {
 	@Autowired
 	private TipologiaRepository tipologiaRepository;
 	
-	public List<Tipologia> obterTipologia(){
+	public List<Tipologia> obterTipologias(){
 		List<Tipologia> tipologia = tipologiaRepository.findAll();
 		return tipologia;
 	}

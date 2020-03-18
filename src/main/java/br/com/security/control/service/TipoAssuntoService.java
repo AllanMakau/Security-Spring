@@ -14,7 +14,7 @@ public class TipoAssuntoService {
 	@Autowired
 	private TipoAssuntoRepository tipoAssuntoRepository;
 	
-	public List<TipoAssunto> obterTipoAssunto(){
+	public List<TipoAssunto> obterTipoAssuntos(){
 		List<TipoAssunto> tipoAssunto = tipoAssuntoRepository.findAll();
 		return tipoAssunto;
 	}
