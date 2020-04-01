@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -101,7 +103,27 @@ public class ControlExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemaDTO problema = new ProblemaDTO(status.value(), tipo.getTitulo(), tipo.getUri(), ex.getMessage());
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request) ; 
 	}
+	
+	@ExceptionHandler({BadCredentialsException.class})
+	protected ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		TipoProblemaEnum tipo = TipoProblemaEnum.BAD_CREDENCIALS;
+		ProblemaDTO problema = new ProblemaDTO(status.value(), tipo.getTitulo(), tipo.getUri(), ex.getMessage());
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request) ; 
+	}
+	
+	@ExceptionHandler({AuthenticationException.class})
+	protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		TipoProblemaEnum tipo = TipoProblemaEnum.BAD_CREDENCIALS;
+		ProblemaDTO problema = new ProblemaDTO(status.value(), tipo.getTitulo(), tipo.getUri(), ex.getMessage());
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request) ; 
+	}
 
+	
+	 
+	
+	
 }
 
 

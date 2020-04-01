@@ -9,7 +9,8 @@ public enum TipoProblemaEnum {
 	RECURSO_NAO_ENCONTRADO("/recurso-nao-encontrada", "Recurso não encontrado"),
 	MENSAGEM_INVALIDA("/mensagem-invalida", "Mensagem Inválida"),
 	ARGUMENTO_INVALIDO("/argumento-invalido", "Argumento Inválido"),
-	ACCESS_DANIED_EXCEPTION("/acesso-inegado", "Acesso Negado");	
+	ACCESS_DANIED_EXCEPTION("/acesso-inegado", "Acesso Negado"),	
+	BAD_CREDENCIALS("/acesso-inegado", "Usuário ou senha incorreto!");
 	
 	private String uri;
 	private String titulo;
